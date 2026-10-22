@@ -191,7 +191,7 @@ Yarışmaya başlamak için "Yarışmayı Başlat" butonuna basınız.
 
 </div>
 
-<div class="status" id="status">VALİDE SULTAN ÖĞRENCİ YURDU</div>
+<div class="status" id="status">İRFANİYE ÖĞRENCİ YURDU</div>
 
 </section>
 
@@ -425,7 +425,58 @@ difficulty:"Kolay",
 level:2
 }
 ];
+/* ===== GÜNLÜK KULLANILAN SORULAR ===== */
 
+function getTodayKey(){
+  const d=new Date();
+  const year=d.getFullYear();
+  const month=String(d.getMonth()+1).padStart(2,"0");
+  const day=String(d.getDate()).padStart(2,"0");
+  return year+"-"+month+"-"+day;
+}
+
+let todayKey=getTodayKey();
+
+let dailyQuestionData=
+JSON.parse(localStorage.getItem("vs_daily_questions")) || {
+  date:todayKey,
+  used:[]
+};
+
+/* Tarih değişmişse eski kullanılan soruları temizle */
+if(dailyQuestionData.date!==todayKey){
+  dailyQuestionData={
+    date:todayKey,
+    used:[]
+  };
+
+  localStorage.setItem(
+    "vs_daily_questions",
+    JSON.stringify(dailyQuestionData)
+  );
+}
+
+function getQuestionKey(q){
+  return String(q.level)+"|"+q.text;
+}
+
+function isQuestionUsedToday(q){
+  return dailyQuestionData.used.includes(getQuestionKey(q));
+}
+
+function markQuestionUsedToday(q){
+
+  let key=getQuestionKey(q);
+
+  if(!dailyQuestionData.used.includes(key)){
+    dailyQuestionData.used.push(key);
+
+    localStorage.setItem(
+      "vs_daily_questions",
+      JSON.stringify(dailyQuestionData)
+    );
+  }
+}
 let currentIndex=-1;
 let currentQuestion=null;
 let currentLevel=0;
@@ -492,7 +543,13 @@ timerRunning=false;
 
 currentIndex=-1;
 currentLevel=0;
+/* Yeni yarışmacı için geçici soru işaretlerini sıfırla */
+questions.forEach(q=>{
+  q._asked=false;
+});
 
+currentQuestion=null;
+answered=false;
 used={
 fifty:false,
 audience:false,
@@ -564,17 +621,24 @@ return;
 
 }
 
-/* Aynı yarışmada daha önce sorulanları çıkar */
+/* Bugün daha önce sorulanları ve bu yarışmada kullanılanları çıkar */
 let availableQuestions=levelQuestions.filter(q=>
-!q._asked
+  !q._asked && !isQuestionUsedToday(q)
 );
 
-/* Hepsi kullanıldıysa yeniden kullanılabilir hale getir */
+/* Bu basamaktaki 10 soru bugün kullanıldıysa dur */
 if(availableQuestions.length===0){
 
-levelQuestions.forEach(q=>q._asked=false);
-availableQuestions=[...levelQuestions];
+  document.getElementById("question").innerText=
+  (currentLevel+1)+". basamakta bugün kullanılmamış soru kalmadı.";
 
+  document.getElementById("status").innerText=
+  "⚠️ Bu basamaktaki tüm sorular bugün kullanıldı.";
+
+  clearAnswers();
+  renderMoneyTree();
+
+  return;
 }
 
 /* Rastgele soru seç */
@@ -584,7 +648,7 @@ Math.floor(Math.random()*availableQuestions.length);
 currentQuestion=availableQuestions[randomIndex];
 
 currentQuestion._asked=true;
-
+markQuestionUsedToday(currentQuestion);
 currentIndex++;
 
 renderMoneyTree();
