@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valide Sultan Bilgi Yarışması</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at center, #123b82 0%, #061d4b 45%, #020819 100%);
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+header{
+    text-align:center;
+    padding:18px;
+    border-bottom:2px solid #d6a93b;
+    background:rgba(0,0,0,.25);
+}
+
+header h1{
+    color:#ffd76a;
+    font-size:30px;
+    letter-spacing:2px;
+    text-shadow:0 0 15px #ffb300;
+}
+
+header p{
+    color:#cbd9ff;
+    margin-top:5px;
+}
+
+.game{
+    display:grid;
+    grid-template-columns:1fr 270px;
+    gap:20px;
+    max-width:1400px;
+    margin:auto;
+    padding:20px;
+}
+
+/* SOL ALAN */
+
+.main{
+    min-height:700px;
+}
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:35px;
+}
+
+.jokers{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.joker{
+    border:2px solid #e0b94c;
+    background:linear-gradient(180deg,#102f70,#061638);
+    color:white;
+    padding:12px 16px;
+    border-radius:30px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.joker:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 15px #ffd24a;
+}
+
+.timer{
+    width:85px;
+    height:85px;
+    border-radius:50%;
+    border:5px solid #ffd65a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:31px;
+    font-weight:bold;
+    background:#07173b;
+    box-shadow:0 0 20px rgba(255,211,75,.7);
+}
+
+/* SORU */
+
+.question-area{
+    margin-top:80px;
+}
+
+.question{
+    min-height:110px;
+    border:2px solid #d7b34c;
+    background:linear-gradient(90deg,#061334,#102e6a,#061334);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px 35px;
+    font-size:25px;
+    font-weight:bold;
+    border-radius:12px;
+    box-shadow:0 0 18px rgba(41,116,255,.5);
+}
+
+.answers{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-top:25px;
+}
+
+.answer{
+    min-height:75px;
+    border:2px solid #d4ad42;
+    background:linear-gradient(90deg,#071638,#123476,#071638);
+    border-radius:40px;
+    color:white;
+    font-size:19px;
+    text-align:left;
+    padding:15px 25px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.answer:hover{
+    background:#c18b12;
+    transform:scale(1.02);
+}
+
+.letter{
+    color:#ffcc4d;
+    font-weight:bold;
+    margin-right:10px;
+}
+
+.controls{
+    margin-top:35px;
+    display:flex;
+    justify-content:center;
+    gap:12px;
+}
+
+.control{
+    padding:12px 22px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.start{
+    background:#1c9b55;
+    color:white;
+}
+
+.next{
+    background:#d79a16;
+    color:white;
+}
+
+.admin{
+    background:#4358b5;
+    color:white;
+}
+
+/* PARA AĞACI */
+
+.money-tree{
+    border-left:2px solid #d6a93b;
+    padding-left:20px;
+}
+
+.money-tree h2{
+    text-align:center;
+    color:#ffd76a;
+    margin-bottom:15px;
+}
+
+.level{
+    display:flex;
+    justify-content:space-between;
+    padding:9px 15px;
+    margin:4px 0;
+    border-radius:7px;
+    font-size:17px;
+    font-weight:bold;
+}
+
+.level.safe{
+    color:#ffd75e;
+}
+
+.level.active{
+    background:#e3a51d;
+    color:#071331;
+    box-shadow:0 0 12px #ffd557;
+}
+
+/* ALT BİLGİ */
+
+.status{
+    text-align:center;
+    margin-top:25px;
+    color:#b8caff;
+    font-size:14px;
+}
+
+/* MOBİL */
+
+@media(max-width:900px){
+
+    .game{
+        grid-template-columns:1fr;
+    }
+
+    .money-tree{
+        border-left:none;
+        border-top:2px solid #d6a93b;
+        padding:20px 0;
+    }
+
+    .answers{
+        grid-template-columns:1fr;
+    }
+
+    .topbar{
+        flex-direction:column;
+    }
+
+    .question-area{
+        margin-top:30px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>VALİDE SULTAN</h1>
+    <p>BİLGİ YARIŞMASI</p>
+</header>
+
+<div class="game">
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div class="jokers">
+                <button class="joker">50 : 50</button>
+                <button class="joker">👥 Seyirci</button>
+                <button class="joker">☎ Arkadaşına Sor</button>
+                <button class="joker">⏱ +30 Sn</button>
+            </div>
+
+            <div class="timer" id="timer">
+                30
+            </div>
+
+        </div>
+
+        <section class="question-area">
+
+            <div class="question" id="question">
+                Yarışmaya başlamak için "Yarışmayı Başlat" butonuna basınız.
+            </div>
+
+            <div class="answers">
+
+                <button class="answer">
+                    <span class="letter">A:</span>
+                    <span id="answerA">---</span>
+                </button>
+
+                <button class="answer">
+                    <span class="letter">B:</span>
+                    <span id="answerB">---</span>
+                </button>
+
+                <button class="answer">
+                    <span class="letter">C:</span>
+                    <span id="answerC">---</span>
+                </button>
+
+                <button class="answer">
+                    <span class="letter">D:</span>
+                    <span id="answerD">---</span>
+                </button>
+
+            </div>
+
+            <div class="controls">
+
+                <button class="control start" onclick="startGame()">
+                    ▶ Yarışmayı Başlat
+                </button>
+
+                <button class="control next">
+                    Sonraki Soru ➜
+                </button>
+
+                <button class="control admin">
+                    ⚙ Yönetici Paneli
+                </button>
+
+            </div>
+
+            <div class="status">
+                VALİDE SULTAN ÖĞRENCİ YURDU
+            </div>
+
+        </section>
+
+    </main>
+
+    <aside class="money-tree">
+
+        <h2>🏆 PARA AĞACI</h2>
+
+        <div class="level">15 <span>1.000.000</span></div>
+        <div class="level">14 <span>500.000</span></div>
+        <div class="level">13 <span>250.000</span></div>
+        <div class="level">12 <span>125.000</span></div>
+        <div class="level">11 <span>60.000</span></div>
+
+        <div class="level safe">
+            10 <span>30.000 ★</span>
+        </div>
+
+        <div class="level">9 <span>15.000</span></div>
+        <div class="level">8 <span>7.500</span></div>
+        <div class="level">7 <span>5.000</span></div>
+        <div class="level">6 <span>3.000</span></div>
+
+        <div class="level safe">
+            5 <span>2.000 ★</span>
+        </div>
+
+        <div class="level">4 <span>1.000</span></div>
+        <div class="level">3 <span>500</span></div>
+        <div class="level">2 <span>200</span></div>
+
+        <div class="level active">
+            1 <span>100</span>
+        </div>
+
+    </aside>
+
+</div>
+
+<script>
+
+let time = 30;
+let timerInterval;
+
+function startGame(){
+
+    document.getElementById("question").innerText =
+        "Türkiye'nin başkenti neresidir?";
+
+    document.getElementById("answerA").innerText =
+        "İstanbul";
+
+    document.getElementById("answerB").innerText =
+        "Ankara";
+
+    document.getElementById("answerC").innerText =
+        "İzmir";
+
+    document.getElementById("answerD").innerText =
+        "Bursa";
+
+    startTimer();
+}
+
+function startTimer(){
+
+    clearInterval(timerInterval);
+
+    time = 30;
+
+    document.getElementById("timer").innerText = time;
+
+    timerInterval = setInterval(function(){
+
+        time--;
+
+        document.getElementById("timer").innerText = time;
+
+        if(time <= 0){
+
+            clearInterval(timerInterval);
+
+            document.getElementById("timer").innerText = "0";
+
+        }
+
+    },1000);
+}
+
+</script>
+
+</body>
+</html>
