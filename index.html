@@ -2,253 +2,129 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Valide Sultan Bilgi Yarışması</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
+*{box-sizing:border-box}
 body{
-    font-family:Arial, Helvetica, sans-serif;
-    background:
-        radial-gradient(circle at center, #123b82 0%, #061d4b 45%, #020819 100%);
-    color:white;
-    min-height:100vh;
-    overflow-x:hidden;
+margin:0;font-family:Arial,sans-serif;color:#fff;min-height:100vh;
+background:radial-gradient(circle at 45% 35%,#174b9c 0,#071d4e 45%,#010817 100%);
 }
-
 header{
-    text-align:center;
-    padding:18px;
-    border-bottom:2px solid #d6a93b;
-    background:rgba(0,0,0,.25);
+text-align:center;padding:14px;border-bottom:2px solid #e6ad25;
+background:rgba(0,0,0,.2)
 }
-
-header h1{
-    color:#ffd76a;
-    font-size:30px;
-    letter-spacing:2px;
-    text-shadow:0 0 15px #ffb300;
-}
-
-header p{
-    color:#cbd9ff;
-    margin-top:5px;
-}
-
+header h1{margin:0;color:#ffd75b;letter-spacing:2px}
+header p{margin:4px;color:#d8e3ff}
 .game{
-    display:grid;
-    grid-template-columns:1fr 270px;
-    gap:20px;
-    max-width:1400px;
-    margin:auto;
-    padding:20px;
+display:grid;grid-template-columns:1fr 280px;gap:18px;
+max-width:1450px;margin:auto;padding:18px
 }
-
-/* SOL ALAN */
-
-.main{
-    min-height:700px;
-}
-
-.topbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:35px;
-}
-
-.jokers{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.jokers{display:flex;gap:8px;flex-wrap:wrap}
+button{font-family:inherit}
 .joker{
-    border:2px solid #e0b94c;
-    background:linear-gradient(180deg,#102f70,#061638);
-    color:white;
-    padding:12px 16px;
-    border-radius:30px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.2s;
+border:2px solid #e7b331;background:#071b49;color:#fff;
+border-radius:28px;padding:11px 16px;font-weight:bold;cursor:pointer
 }
-
-.joker:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 15px #ffd24a;
-}
-
+.joker.used{opacity:.35;text-decoration:line-through}
 .timer{
-    width:85px;
-    height:85px;
-    border-radius:50%;
-    border:5px solid #ffd65a;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:31px;
-    font-weight:bold;
-    background:#07173b;
-    box-shadow:0 0 20px rgba(255,211,75,.7);
+width:80px;height:80px;border-radius:50%;border:5px solid #ffd55a;
+display:flex;align-items:center;justify-content:center;font-size:29px;
+font-weight:bold;background:#071536;box-shadow:0 0 17px #e5b52f
 }
-
-/* SORU */
-
-.question-area{
-    margin-top:80px;
-}
-
+.question-area{margin-top:65px}
 .question{
-    min-height:110px;
-    border:2px solid #d7b34c;
-    background:linear-gradient(90deg,#061334,#102e6a,#061334);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:20px 35px;
-    font-size:25px;
-    font-weight:bold;
-    border-radius:12px;
-    box-shadow:0 0 18px rgba(41,116,255,.5);
+min-height:105px;border:2px solid #d9a92e;border-radius:12px;
+display:flex;align-items:center;justify-content:center;text-align:center;
+padding:20px;font-size:24px;font-weight:bold;
+background:linear-gradient(90deg,#071638,#123879,#071638)
 }
-
 .answers{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-    margin-top:25px;
+display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:22px
 }
-
 .answer{
-    min-height:75px;
-    border:2px solid #d4ad42;
-    background:linear-gradient(90deg,#071638,#123476,#071638);
-    border-radius:40px;
-    color:white;
-    font-size:19px;
-    text-align:left;
-    padding:15px 25px;
-    cursor:pointer;
-    transition:.2s;
+min-height:70px;border:2px solid #d8aa31;border-radius:35px;
+background:linear-gradient(90deg,#071638,#123879,#071638);
+color:#fff;font-size:18px;text-align:left;padding:15px 23px;cursor:pointer
 }
-
-.answer:hover{
-    background:#c18b12;
-    transform:scale(1.02);
-}
-
-.letter{
-    color:#ffcc4d;
-    font-weight:bold;
-    margin-right:10px;
-}
-
+.answer:hover{background:#a8780d}
+.answer.selected{background:#d99a12;color:#081432}
+.answer.correct{background:#158447!important;color:white}
+.answer.wrong{background:#b52b2b!important;color:white}
+.answer.hiddenAnswer{visibility:hidden}
+.letter{color:#ffd04d;font-weight:bold;margin-right:8px}
 .controls{
-    margin-top:35px;
-    display:flex;
-    justify-content:center;
-    gap:12px;
+display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:28px
 }
-
-.control{
-    padding:12px 22px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:15px;
-}
-
-.start{
-    background:#1c9b55;
-    color:white;
-}
-
-.next{
-    background:#d79a16;
-    color:white;
-}
-
-.admin{
-    background:#4358b5;
-    color:white;
-}
-
-/* PARA AĞACI */
-
-.money-tree{
-    border-left:2px solid #d6a93b;
-    padding-left:20px;
-}
-
-.money-tree h2{
-    text-align:center;
-    color:#ffd76a;
-    margin-bottom:15px;
-}
-
+.control{border:0;border-radius:8px;padding:12px 18px;color:#fff;font-weight:bold;cursor:pointer}
+.green{background:#159752}.orange{background:#d79512}.blue{background:#435ab5}
+.red{background:#b93737}.gray{background:#526071}
+.status{text-align:center;margin-top:18px;color:#bfd0ff}
+.money-tree{border-left:2px solid #d7a62b;padding-left:18px}
+.money-tree h2{text-align:center;color:#ffd052}
 .level{
-    display:flex;
-    justify-content:space-between;
-    padding:9px 15px;
-    margin:4px 0;
-    border-radius:7px;
-    font-size:17px;
-    font-weight:bold;
+display:flex;justify-content:space-between;padding:8px 14px;
+margin:3px;border-radius:7px;font-weight:bold
 }
+.level.safe{color:#ffd447}
+.level.active{background:#e8a91d;color:#081331;box-shadow:0 0 12px #ffc92e}
 
-.level.safe{
-    color:#ffd75e;
+/* MODAL */
+.modal{
+display:none;position:fixed;z-index:100;inset:0;
+background:rgba(0,0,0,.78);overflow:auto;padding:25px
 }
-
-.level.active{
-    background:#e3a51d;
-    color:#071331;
-    box-shadow:0 0 12px #ffd557;
+.modal-content{
+max-width:1100px;margin:auto;background:#071b43;border:2px solid #d7a82c;
+border-radius:14px;padding:22px;box-shadow:0 0 30px #000
 }
-
-/* ALT BİLGİ */
-
-.status{
-    text-align:center;
-    margin-top:25px;
-    color:#b8caff;
-    font-size:14px;
+.modal-head{display:flex;justify-content:space-between;align-items:center}
+.modal h2{color:#ffd255}
+.close{font-size:30px;cursor:pointer;color:#fff}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.tabbtn{
+background:#183d80;color:white;border:1px solid #e1b33c;
+padding:10px 15px;border-radius:7px;cursor:pointer
 }
-
-/* MOBİL */
-
+.tabbtn.active{background:#d89b16;color:#081331}
+.panel{display:none}.panel.active{display:block}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.full{grid-column:1/-1}
+label{display:block;margin-bottom:5px;color:#dbe6ff;font-weight:bold}
+input,select,textarea{
+width:100%;padding:11px;border-radius:7px;border:1px solid #7389b7;
+background:#f8fbff;color:#111;font-size:15px
+}
+textarea{min-height:80px;resize:vertical}
+.savebtn{
+margin-top:15px;background:#179653;color:white;border:0;
+padding:12px 20px;border-radius:7px;font-weight:bold;cursor:pointer
+}
+.question-list{margin-top:15px}
+.qitem{
+background:#0d2b63;border:1px solid #365b9d;border-radius:8px;
+padding:12px;margin:8px 0
+}
+.qtop{display:flex;justify-content:space-between;gap:10px}
+.smallbtn{
+border:0;border-radius:5px;padding:7px 10px;color:white;cursor:pointer;margin-left:4px
+}
+.editbtn{background:#bd8510}.deletebtn{background:#b53636}
+.money-row{
+display:grid;grid-template-columns:60px 1fr 100px;gap:10px;
+align-items:center;margin:7px 0
+}
+.notice{
+background:#102f6b;border-left:4px solid #ffd04d;padding:12px;margin:12px 0
+}
 @media(max-width:900px){
-
-    .game{
-        grid-template-columns:1fr;
-    }
-
-    .money-tree{
-        border-left:none;
-        border-top:2px solid #d6a93b;
-        padding:20px 0;
-    }
-
-    .answers{
-        grid-template-columns:1fr;
-    }
-
-    .topbar{
-        flex-direction:column;
-    }
-
-    .question-area{
-        margin-top:30px;
-    }
+.game{grid-template-columns:1fr}
+.money-tree{border-left:0;border-top:2px solid #d7a62b;padding-top:15px}
+.answers,.form-grid{grid-template-columns:1fr}
+.full{grid-column:auto}
+.question-area{margin-top:30px}
 }
 </style>
 </head>
@@ -256,167 +132,790 @@ header p{
 <body>
 
 <header>
-    <h1>VALİDE SULTAN</h1>
-    <p>BİLGİ YARIŞMASI</p>
+<h1>VALİDE SULTAN</h1>
+<p>BİLGİ YARIŞMASI</p>
 </header>
 
 <div class="game">
 
-    <main class="main">
+<main>
 
-        <div class="topbar">
+<div class="topbar">
 
-            <div class="jokers">
-                <button class="joker">50 : 50</button>
-                <button class="joker">👥 Seyirci</button>
-                <button class="joker">☎ Arkadaşına Sor</button>
-                <button class="joker">⏱ +30 Sn</button>
-            </div>
+<div class="jokers">
+<button class="joker" id="fifty" onclick="useFifty()">50 : 50</button>
+<button class="joker" id="audience" onclick="useAudience()">👥 Seyirci</button>
+<button class="joker" id="friend" onclick="useFriend()">☎ Arkadaşına Sor</button>
+<button class="joker" id="extra" onclick="useExtra()">⏱ +30 Sn</button>
+</div>
 
-            <div class="timer" id="timer">
-                30
-            </div>
+<div class="timer" id="timer">30</div>
 
-        </div>
+</div>
 
-        <section class="question-area">
+<section class="question-area">
 
-            <div class="question" id="question">
-                Yarışmaya başlamak için "Yarışmayı Başlat" butonuna basınız.
-            </div>
+<div class="question" id="question">
+Yarışmaya başlamak için "Yarışmayı Başlat" butonuna basınız.
+</div>
 
-            <div class="answers">
+<div class="answers">
 
-                <button class="answer">
-                    <span class="letter">A:</span>
-                    <span id="answerA">---</span>
-                </button>
+<button class="answer" data-letter="A" onclick="chooseAnswer('A',this)">
+<span class="letter">A:</span><span id="answerA">---</span>
+</button>
 
-                <button class="answer">
-                    <span class="letter">B:</span>
-                    <span id="answerB">---</span>
-                </button>
+<button class="answer" data-letter="B" onclick="chooseAnswer('B',this)">
+<span class="letter">B:</span><span id="answerB">---</span>
+</button>
 
-                <button class="answer">
-                    <span class="letter">C:</span>
-                    <span id="answerC">---</span>
-                </button>
+<button class="answer" data-letter="C" onclick="chooseAnswer('C',this)">
+<span class="letter">C:</span><span id="answerC">---</span>
+</button>
 
-                <button class="answer">
-                    <span class="letter">D:</span>
-                    <span id="answerD">---</span>
-                </button>
+<button class="answer" data-letter="D" onclick="chooseAnswer('D',this)">
+<span class="letter">D:</span><span id="answerD">---</span>
+</button>
 
-            </div>
+</div>
 
-            <div class="controls">
+<div class="controls">
 
-                <button class="control start" onclick="startGame()">
-                    ▶ Yarışmayı Başlat
-                </button>
+<button class="control green" onclick="startGame()">▶ Yarışmayı Başlat</button>
 
-                <button class="control next">
-                    Sonraki Soru ➜
-                </button>
+<button class="control orange" onclick="nextQuestion()">Sonraki Soru ➜</button>
 
-                <button class="control admin">
-                    ⚙ Yönetici Paneli
-                </button>
+<button class="control blue" onclick="openAdmin()">⚙ Yönetici Paneli</button>
 
-            </div>
+<button class="control gray" onclick="toggleTimer()">⏯ Süre</button>
 
-            <div class="status">
-                VALİDE SULTAN ÖĞRENCİ YURDU
-            </div>
+</div>
 
-        </section>
+<div class="status" id="status">VALİDE SULTAN ÖĞRENCİ YURDU</div>
 
-    </main>
+</section>
 
-    <aside class="money-tree">
+</main>
 
-        <h2>🏆 PARA AĞACI</h2>
+<aside class="money-tree">
 
-        <div class="level">15 <span>1.000.000</span></div>
-        <div class="level">14 <span>500.000</span></div>
-        <div class="level">13 <span>250.000</span></div>
-        <div class="level">12 <span>125.000</span></div>
-        <div class="level">11 <span>60.000</span></div>
+<h2>🏆 PARA AĞACI</h2>
 
-        <div class="level safe">
-            10 <span>30.000 ★</span>
-        </div>
+<div id="moneyTree"></div>
 
-        <div class="level">9 <span>15.000</span></div>
-        <div class="level">8 <span>7.500</span></div>
-        <div class="level">7 <span>5.000</span></div>
-        <div class="level">6 <span>3.000</span></div>
+</aside>
 
-        <div class="level safe">
-            5 <span>2.000 ★</span>
-        </div>
+</div>
 
-        <div class="level">4 <span>1.000</span></div>
-        <div class="level">3 <span>500</span></div>
-        <div class="level">2 <span>200</span></div>
+<!-- YÖNETİCİ PANELİ -->
 
-        <div class="level active">
-            1 <span>100</span>
-        </div>
+<div class="modal" id="adminModal">
 
-    </aside>
+<div class="modal-content">
 
+<div class="modal-head">
+<h2>⚙ YÖNETİCİ PANELİ</h2>
+<span class="close" onclick="closeAdmin()">×</span>
+</div>
+
+<div class="tabs">
+
+<button class="tabbtn active" onclick="showTab('addPanel',this)">➕ Soru Ekle</button>
+
+<button class="tabbtn" onclick="showTab('listPanel',this)">📚 Sorular</button>
+
+<button class="tabbtn" onclick="showTab('moneyPanel',this)">🏆 Para Ağacı</button>
+
+</div>
+
+<!-- SORU EKLE -->
+
+<div class="panel active" id="addPanel">
+
+<div class="form-grid">
+
+<div class="full">
+<label>Soru</label>
+<textarea id="qText" placeholder="Soruyu yazınız..."></textarea>
+</div>
+
+<div>
+<label>A Şıkkı</label>
+<input id="qA">
+</div>
+
+<div>
+<label>B Şıkkı</label>
+<input id="qB">
+</div>
+
+<div>
+<label>C Şıkkı</label>
+<input id="qC">
+</div>
+
+<div>
+<label>D Şıkkı</label>
+<input id="qD">
+</div>
+
+<div>
+<label>Doğru Cevap</label>
+<select id="qCorrect">
+<option value="A">A</option>
+<option value="B">B</option>
+<option value="C">C</option>
+<option value="D">D</option>
+</select>
+</div>
+
+<div>
+<label>Süre</label>
+<select id="qTime">
+<option value="15">15 saniye</option>
+<option value="30" selected>30 saniye</option>
+<option value="45">45 saniye</option>
+<option value="60">60 saniye</option>
+<option value="90">90 saniye</option>
+</select>
+</div>
+
+<div>
+<label>Zorluk</label>
+<select id="qDifficulty">
+<option>Kolay</option>
+<option>Orta</option>
+<option>Zor</option>
+</select>
+</div>
+
+<div>
+<label>Para Ağacı Basamağı</label>
+<select id="qLevel"></select>
+</div>
+
+</div>
+
+<input type="hidden" id="editIndex" value="-1">
+
+<button class="savebtn" onclick="saveQuestion()">💾 Soruyu Kaydet</button>
+
+</div>
+
+<!-- SORU LİSTESİ -->
+
+<div class="panel" id="listPanel">
+
+<div class="notice">
+Eklediğiniz sorular aşağıda görünür. Düzenleyebilir veya silebilirsiniz.
+</div>
+
+<div class="question-list" id="questionList"></div>
+
+</div>
+
+<!-- PARA AĞACI -->
+
+<div class="panel" id="moneyPanel">
+
+<div class="notice">
+Para yerine puan veya ödül adı da yazabilirsiniz. Örneğin: "500 Puan" veya "Kitap Seti".
+</div>
+
+<div id="moneySettings"></div>
+
+<button class="savebtn" onclick="saveMoneyTree()">💾 Para Ağacını Kaydet</button>
+
+</div>
+
+</div>
 </div>
 
 <script>
 
-let time = 30;
-let timerInterval;
+const defaultMoney=[
+"100","200","500","1.000","2.000",
+"3.000","5.000","7.500","15.000","30.000",
+"60.000","125.000","250.000","500.000","1.000.000"
+];
+
+let moneyValues=JSON.parse(localStorage.getItem("vs_money")) || [...defaultMoney];
+
+let questions=JSON.parse(localStorage.getItem("vs_questions")) || [
+{
+text:"Türkiye'nin başkenti neresidir?",
+A:"İstanbul",
+B:"Ankara",
+C:"İzmir",
+D:"Bursa",
+correct:"B",
+time:30,
+difficulty:"Kolay",
+level:1
+},
+{
+text:"İstiklal Marşı'nın yazarı kimdir?",
+A:"Mehmet Akif Ersoy",
+B:"Namık Kemal",
+C:"Yahya Kemal",
+D:"Tevfik Fikret",
+correct:"A",
+time:30,
+difficulty:"Kolay",
+level:2
+}
+];
+
+let currentIndex=-1;
+let currentQuestion=null;
+let currentLevel=0;
+let time=30;
+let timerInterval=null;
+let timerRunning=false;
+let answered=false;
+
+let used={
+fifty:false,
+audience:false,
+friend:false,
+extra:false
+};
+
+function renderMoneyTree(){
+
+let box=document.getElementById("moneyTree");
+box.innerHTML="";
+
+for(let i=14;i>=0;i--){
+
+let div=document.createElement("div");
+div.className="level";
+
+if(i===4 || i===9) div.classList.add("safe");
+if(i===currentLevel) div.classList.add("active");
+
+let star=(i===4 || i===9) ? " ★":"";
+
+div.innerHTML="<span>"+(i+1)+"</span><span>"+moneyValues[i]+star+"</span>";
+
+box.appendChild(div);
+}
+
+}
+
+function fillLevels(){
+
+let select=document.getElementById("qLevel");
+select.innerHTML="";
+
+for(let i=1;i<=15;i++){
+
+let o=document.createElement("option");
+o.value=i;
+o.textContent=i+". Basamak - "+moneyValues[i-1];
+
+select.appendChild(o);
+
+}
+
+}
 
 function startGame(){
 
-    document.getElementById("question").innerText =
-        "Türkiye'nin başkenti neresidir?";
+if(questions.length===0){
+alert("Önce yönetici panelinden soru ekleyiniz.");
+return;
+}
 
-    document.getElementById("answerA").innerText =
-        "İstanbul";
+currentIndex=-1;
+currentLevel=0;
 
-    document.getElementById("answerB").innerText =
-        "Ankara";
+used={fifty:false,audience:false,friend:false,extra:false};
 
-    document.getElementById("answerC").innerText =
-        "İzmir";
+document.querySelectorAll(".joker").forEach(x=>x.classList.remove("used"));
 
-    document.getElementById("answerD").innerText =
-        "Bursa";
+nextQuestion();
 
-    startTimer();
+}
+
+function nextQuestion(){
+
+clearInterval(timerInterval);
+timerRunning=false;
+
+currentIndex++;
+
+if(currentIndex>=questions.length){
+
+document.getElementById("question").innerText="🎉 Yarışma tamamlandı!";
+document.getElementById("status").innerText="Tebrikler!";
+clearAnswers();
+return;
+
+}
+
+currentQuestion=questions[currentIndex];
+
+showQuestion(currentQuestion);
+
+}
+
+function showQuestion(q){
+
+answered=false;
+
+document.getElementById("question").innerText=q.text;
+
+document.getElementById("answerA").innerText=q.A;
+document.getElementById("answerB").innerText=q.B;
+document.getElementById("answerC").innerText=q.C;
+document.getElementById("answerD").innerText=q.D;
+
+document.querySelectorAll(".answer").forEach(btn=>{
+btn.classList.remove("selected","correct","wrong","hiddenAnswer");
+btn.disabled=false;
+});
+
+time=parseInt(q.time)||30;
+
+document.getElementById("timer").innerText=time;
+
+document.getElementById("status").innerText=
+(currentIndex+1)+". Soru • "+q.difficulty+" • "+time+" saniye";
+
+startTimer();
+
+}
+
+function chooseAnswer(letter,button){
+
+if(!currentQuestion || answered) return;
+
+answered=true;
+
+clearInterval(timerInterval);
+timerRunning=false;
+
+button.classList.add("selected");
+
+setTimeout(()=>{
+
+document.querySelectorAll(".answer").forEach(btn=>{
+
+let l=btn.dataset.letter;
+
+if(l===currentQuestion.correct){
+btn.classList.add("correct");
+}
+
+if(l===letter && letter!==currentQuestion.correct){
+btn.classList.add("wrong");
+}
+
+btn.disabled=true;
+
+});
+
+if(letter===currentQuestion.correct){
+
+currentLevel=Math.min(
+parseInt(currentQuestion.level)-1,
+14
+);
+
+document.getElementById("status").innerText="✅ DOĞRU CEVAP!";
+
+}else{
+
+document.getElementById("status").innerText=
+"❌ Yanlış cevap. Doğru cevap: "+currentQuestion.correct;
+
+}
+
+renderMoneyTree();
+
+},700);
+
 }
 
 function startTimer(){
 
-    clearInterval(timerInterval);
+clearInterval(timerInterval);
 
-    time = 30;
+timerRunning=true;
 
-    document.getElementById("timer").innerText = time;
+timerInterval=setInterval(()=>{
 
-    timerInterval = setInterval(function(){
+time--;
 
-        time--;
+document.getElementById("timer").innerText=time;
 
-        document.getElementById("timer").innerText = time;
+if(time<=0){
 
-        if(time <= 0){
+clearInterval(timerInterval);
+timerRunning=false;
 
-            clearInterval(timerInterval);
+document.getElementById("timer").innerText="0";
 
-            document.getElementById("timer").innerText = "0";
+if(!answered){
 
-        }
+answered=true;
 
-    },1000);
+document.getElementById("status").innerText="⏰ SÜRE DOLDU!";
+
+document.querySelectorAll(".answer").forEach(btn=>{
+
+if(btn.dataset.letter===currentQuestion.correct){
+btn.classList.add("correct");
 }
+
+btn.disabled=true;
+
+});
+
+}
+
+}
+
+},1000);
+
+}
+
+function toggleTimer(){
+
+if(!currentQuestion) return;
+
+if(timerRunning){
+
+clearInterval(timerInterval);
+timerRunning=false;
+document.getElementById("status").innerText="⏸ Süre durduruldu";
+
+}else{
+
+startTimer();
+document.getElementById("status").innerText="▶ Süre devam ediyor";
+
+}
+
+}
+
+function useFifty(){
+
+if(!currentQuestion || used.fifty) return;
+
+used.fifty=true;
+document.getElementById("fifty").classList.add("used");
+
+let wrong=["A","B","C","D"].filter(x=>x!==currentQuestion.correct);
+
+wrong.sort(()=>Math.random()-.5);
+
+wrong.slice(0,2).forEach(letter=>{
+
+let btn=document.querySelector('.answer[data-letter="'+letter+'"]');
+
+btn.classList.add("hiddenAnswer");
+
+});
+
+}
+
+function useAudience(){
+
+if(!currentQuestion || used.audience) return;
+
+used.audience=true;
+document.getElementById("audience").classList.add("used");
+
+let correct=currentQuestion.correct;
+
+let percentages={A:10,B:10,C:10,D:10};
+
+percentages[correct]=55;
+
+let others=["A","B","C","D"].filter(x=>x!==correct);
+
+percentages[others[0]]=20;
+percentages[others[1]]=15;
+percentages[others[2]]=10;
+
+alert(
+"👥 SEYİRCİ SONUCU\n\n"+
+"A: %"+percentages.A+"\n"+
+"B: %"+percentages.B+"\n"+
+"C: %"+percentages.C+"\n"+
+"D: %"+percentages.D
+);
+
+}
+
+function useFriend(){
+
+if(!currentQuestion || used.friend) return;
+
+used.friend=true;
+document.getElementById("friend").classList.add("used");
+
+alert(
+"☎ ARKADAŞINA SOR\n\n"+
+"Arkadaşın: Bence cevap "+currentQuestion.correct+" olabilir."
+);
+
+}
+
+function useExtra(){
+
+if(!currentQuestion || used.extra) return;
+
+used.extra=true;
+document.getElementById("extra").classList.add("used");
+
+time+=30;
+
+document.getElementById("timer").innerText=time;
+
+}
+
+function clearAnswers(){
+
+["A","B","C","D"].forEach(x=>{
+document.getElementById("answer"+x).innerText="---";
+});
+
+}
+
+function openAdmin(){
+
+clearInterval(timerInterval);
+timerRunning=false;
+
+document.getElementById("adminModal").style.display="block";
+
+renderQuestionList();
+renderMoneySettings();
+fillLevels();
+
+}
+
+function closeAdmin(){
+
+document.getElementById("adminModal").style.display="none";
+
+}
+
+function showTab(id,btn){
+
+document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+
+document.querySelectorAll(".tabbtn").forEach(x=>x.classList.remove("active"));
+
+document.getElementById(id).classList.add("active");
+
+btn.classList.add("active");
+
+if(id==="listPanel") renderQuestionList();
+
+if(id==="moneyPanel") renderMoneySettings();
+
+}
+
+function saveQuestion(){
+
+let text=document.getElementById("qText").value.trim();
+let A=document.getElementById("qA").value.trim();
+let B=document.getElementById("qB").value.trim();
+let C=document.getElementById("qC").value.trim();
+let D=document.getElementById("qD").value.trim();
+
+if(!text || !A || !B || !C || !D){
+
+alert("Soru ve bütün şıkları doldurunuz.");
+return;
+
+}
+
+let q={
+text:text,
+A:A,
+B:B,
+C:C,
+D:D,
+correct:document.getElementById("qCorrect").value,
+time:parseInt(document.getElementById("qTime").value),
+difficulty:document.getElementById("qDifficulty").value,
+level:parseInt(document.getElementById("qLevel").value)
+};
+
+let editIndex=parseInt(document.getElementById("editIndex").value);
+
+if(editIndex>=0){
+
+questions[editIndex]=q;
+
+}else{
+
+questions.push(q);
+
+}
+
+localStorage.setItem("vs_questions",JSON.stringify(questions));
+
+clearQuestionForm();
+
+alert("✅ Soru kaydedildi.");
+
+renderQuestionList();
+
+}
+
+function clearQuestionForm(){
+
+document.getElementById("qText").value="";
+document.getElementById("qA").value="";
+document.getElementById("qB").value="";
+document.getElementById("qC").value="";
+document.getElementById("qD").value="";
+document.getElementById("qCorrect").value="A";
+document.getElementById("qTime").value="30";
+document.getElementById("qDifficulty").value="Kolay";
+document.getElementById("qLevel").value="1";
+document.getElementById("editIndex").value="-1";
+
+}
+
+function renderQuestionList(){
+
+let box=document.getElementById("questionList");
+
+if(questions.length===0){
+
+box.innerHTML="<p>Henüz soru eklenmedi.</p>";
+return;
+
+}
+
+box.innerHTML="";
+
+questions.forEach((q,i)=>{
+
+let div=document.createElement("div");
+
+div.className="qitem";
+
+div.innerHTML=
+'<div class="qtop">'+
+'<div><b>'+(i+1)+'. '+escapeHtml(q.text)+'</b><br>'+
+'<small>Doğru: '+q.correct+
+' | Süre: '+q.time+
+' sn | '+q.difficulty+
+' | Basamak: '+q.level+'</small></div>'+
+'<div>'+
+'<button class="smallbtn editbtn" onclick="editQuestion('+i+')">Düzenle</button>'+
+'<button class="smallbtn deletebtn" onclick="deleteQuestion('+i+')">Sil</button>'+
+'</div>'+
+'</div>';
+
+box.appendChild(div);
+
+});
+
+}
+
+function editQuestion(i){
+
+let q=questions[i];
+
+document.getElementById("qText").value=q.text;
+document.getElementById("qA").value=q.A;
+document.getElementById("qB").value=q.B;
+document.getElementById("qC").value=q.C;
+document.getElementById("qD").value=q.D;
+document.getElementById("qCorrect").value=q.correct;
+document.getElementById("qTime").value=q.time;
+document.getElementById("qDifficulty").value=q.difficulty;
+document.getElementById("qLevel").value=q.level;
+document.getElementById("editIndex").value=i;
+
+let firstTab=document.querySelector(".tabbtn");
+
+showTab("addPanel",firstTab);
+
+}
+
+function deleteQuestion(i){
+
+if(!confirm("Bu soruyu silmek istediğinize emin misiniz?")) return;
+
+questions.splice(i,1);
+
+localStorage.setItem("vs_questions",JSON.stringify(questions));
+
+renderQuestionList();
+
+}
+
+function renderMoneySettings(){
+
+let box=document.getElementById("moneySettings");
+
+box.innerHTML="";
+
+for(let i=14;i>=0;i--){
+
+let row=document.createElement("div");
+
+row.className="money-row";
+
+row.innerHTML=
+"<b>"+(i+1)+".</b>"+
+'<input id="money'+i+'" value="'+escapeAttr(moneyValues[i])+'">'+
+((i===4 || i===9) ? "<span>★ Baraj</span>" : "<span></span>");
+
+box.appendChild(row);
+
+}
+
+}
+
+function saveMoneyTree(){
+
+for(let i=0;i<15;i++){
+
+let el=document.getElementById("money"+i);
+
+if(el) moneyValues[i]=el.value.trim() || defaultMoney[i];
+
+}
+
+localStorage.setItem("vs_money",JSON.stringify(moneyValues));
+
+renderMoneyTree();
+fillLevels();
+
+alert("✅ Para ağacı kaydedildi.");
+
+}
+
+function escapeHtml(str){
+
+return String(str)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+function escapeAttr(str){
+
+return escapeHtml(str);
+
+}
+
+renderMoneyTree();
+fillLevels();
 
 </script>
 
