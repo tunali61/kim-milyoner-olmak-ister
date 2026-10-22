@@ -225,7 +225,7 @@ Yarışmaya başlamak için "Yarışmayı Başlat" butonuna basınız.
 <button class="tabbtn" onclick="showTab('listPanel',this)">📚 Sorular</button>
 
 <button class="tabbtn" onclick="showTab('moneyPanel',this)">🏆 Para Ağacı</button>
-
+<button class="tabbtn" onclick="showTab('bulkPanel',this)">📥 Toplu Soru</button>
 </div>
 
 <!-- SORU EKLE -->
@@ -327,7 +327,67 @@ Para yerine puan veya ödül adı da yazabilirsiniz. Örneğin: "500 Puan" veya 
 <button class="savebtn" onclick="saveMoneyTree()">💾 Para Ağacını Kaydet</button>
 
 </div>
+<!-- TOPLU SORU -->
 
+<div class="panel" id="bulkPanel">
+
+<div class="notice">
+<strong>📥 Toplu Soru Yükleme</strong><br><br>
+Sorularınızı CSV dosyası ile toplu olarak yükleyebilirsiniz.<br><br>
+Sütun sırası:<br>
+<strong>Basamak | Soru | A | B | C | D | Doğru Cevap | Süre | Zorluk</strong>
+</div>
+
+<div style="margin-top:18px">
+
+<label>CSV Soru Dosyası Seç</label>
+
+<input
+type="file"
+id="csvFile"
+accept=".csv,text/csv"
+style="margin-top:8px"
+>
+
+<button
+class="savebtn"
+onclick="importCSV()"
+style="margin-right:8px">
+📥 Soruları Yükle
+</button>
+
+<button
+class="savebtn"
+onclick="downloadQuestions()"
+style="background:#435ab5;margin-right:8px">
+📤 Soruları Yedekle
+</button>
+
+<button
+class="savebtn"
+onclick="document.getElementById('backupFile').click()"
+style="background:#bd8510">
+♻ Yedeği Geri Yükle
+</button>
+
+<input
+type="file"
+id="backupFile"
+accept=".json"
+style="display:none"
+onchange="restoreQuestions(event)"
+>
+
+</div>
+
+<div class="notice" style="margin-top:20px">
+<strong>Örnek CSV satırı:</strong><br><br>
+1;Türkiye'nin en büyük gölü hangisidir?;Tuz Gölü;Van Gölü;Beyşehir Gölü;İznik Gölü;B;30;Kolay
+</div>
+
+<div id="bulkStatus" style="margin-top:15px"></div>
+
+</div>
 </div>
 </div>
 
@@ -985,7 +1045,315 @@ function escapeAttr(str){
 return escapeHtml(str);
 
 }
+function importCSV(){
 
+const input=document.getElementById("csvFile");
+
+if(!input.files || !input.files[0]){
+alert("Önce bir CSV dosyası seçiniz.");
+return;
+}
+
+const file=input.files[0];
+const reader=new FileReader();
+
+reader.onload=function(e){
+
+try{
+
+let text=e.target.result;
+
+/* Excel UTF-8 BOM işaretini temizle */
+text=text.replace(/^\uFEFF/,"");
+
+let lines=text
+.split(/\r?\n/)
+.map(line=>line.trim())
+.filter(line=>line.length>0);
+
+if(lines.length===0){
+alert("CSV dosyası boş.");
+return;
+}
+
+let added=0;
+let skipped=0;
+let startIndex=0;
+
+/* İlk satır başlıksa atla */
+let first=lines[0].toLocaleLowerCase("tr-TR");
+
+if(
+first.includes("basamak") &&
+first.includes("soru")
+){
+startIndex=1;
+}
+
+for(let i=startIndex;i<lines.length;i++){
+
+let cols=parseCSVLine(lines[i]);
+
+if(cols.length<9){
+skipped++;
+continue;
+}
+
+let level=parseInt(cols[0]);
+let text=cols[1].trim();
+let A=cols[2].trim();
+let B=cols[3].trim();
+let C=cols[4].trim();
+let D=cols[5].trim();
+let correct=cols[6].trim().toUpperCase();
+let qTime=parseInt(cols[7]) || 30;
+let difficulty=cols[8].trim() || "Kolay";
+
+if(
+!level ||
+level<1 ||
+level>15 ||
+!text ||
+!A ||
+!B ||
+!C ||
+!D ||
+!["A","B","C","D"].includes(correct)
+){
+skipped++;
+continue;
+}
+
+questions.push({
+text:text,
+A:A,
+B:B,
+C:C,
+D:D,
+correct:correct,
+time:qTime,
+difficulty:difficulty,
+level:level
+});
+
+added++;
+
+}
+
+localStorage.setItem(
+"vs_questions",
+JSON.stringify(questions)
+);
+
+renderQuestionList();
+
+document.getElementById("bulkStatus").innerHTML=
+"<div class='notice'>"+
+"✅ <strong>"+added+"</strong> soru başarıyla eklendi."+
+(skipped>0
+? "<br>⚠ "+skipped+" satır uygun olmadığı için eklenmedi."
+: "")+
+"<br><br>Toplam soru sayısı: <strong>"+
+questions.length+
+"</strong></div>";
+
+input.value="";
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"CSV dosyası okunurken bir hata oluştu."
+);
+
+}
+
+};
+
+reader.readAsText(file,"UTF-8");
+
+}
+
+
+function parseCSVLine(line){
+
+let delimiter=";";
+
+/* Dosya virgülle hazırlanmışsa onu da kabul et */
+if(
+(line.match(/;/g)||[]).length <
+(line.match(/,/g)||[]).length
+){
+delimiter=",";
+}
+
+let result=[];
+let current="";
+let insideQuotes=false;
+
+for(let i=0;i<line.length;i++){
+
+let char=line[i];
+
+if(char==='"'){
+
+if(
+insideQuotes &&
+line[i+1]==='"'
+){
+current+='"';
+i++;
+}else{
+insideQuotes=!insideQuotes;
+}
+
+}else if(
+char===delimiter &&
+!insideQuotes
+){
+
+result.push(current.trim());
+current="";
+
+}else{
+
+current+=char;
+
+}
+
+}
+
+result.push(current.trim());
+
+return result;
+
+}
+
+
+function downloadQuestions(){
+
+if(questions.length===0){
+alert("Yedeklenecek soru bulunmuyor.");
+return;
+}
+
+const backup={
+version:1,
+date:new Date().toISOString(),
+questions:questions,
+moneyValues:moneyValues
+};
+
+const blob=new Blob(
+[JSON.stringify(backup,null,2)],
+{type:"application/json"}
+);
+
+const url=URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+
+a.href=url;
+a.download="valide-sultan-soru-yedegi.json";
+
+document.body.appendChild(a);
+a.click();
+a.remove();
+
+URL.revokeObjectURL(url);
+
+}
+
+
+function restoreQuestions(event){
+
+const file=event.target.files[0];
+
+if(!file) return;
+
+if(
+!confirm(
+"Mevcut soruların yerine yedekteki sorular yüklenecek. Devam edilsin mi?"
+)
+){
+event.target.value="";
+return;
+}
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+
+try{
+
+const backup=JSON.parse(e.target.result);
+
+let restoredQuestions;
+
+if(Array.isArray(backup)){
+restoredQuestions=backup;
+}else if(
+backup &&
+Array.isArray(backup.questions)
+){
+restoredQuestions=backup.questions;
+}else{
+throw new Error("Geçersiz yedek");
+}
+
+questions=restoredQuestions;
+
+localStorage.setItem(
+"vs_questions",
+JSON.stringify(questions)
+);
+
+/* Yedekte para ağacı varsa onu da geri yükle */
+if(
+backup.moneyValues &&
+Array.isArray(backup.moneyValues) &&
+backup.moneyValues.length===15
+){
+
+moneyValues=backup.moneyValues;
+
+localStorage.setItem(
+"vs_money",
+JSON.stringify(moneyValues)
+);
+
+}
+
+renderQuestionList();
+renderMoneyTree();
+renderMoneySettings();
+fillLevels();
+
+document.getElementById("bulkStatus").innerHTML=
+"<div class='notice'>"+
+"✅ Yedek başarıyla geri yüklendi.<br>"+
+"Toplam soru: <strong>"+
+questions.length+
+"</strong></div>";
+
+alert("✅ Yedek başarıyla geri yüklendi.");
+
+}catch(error){
+
+console.error(error);
+
+alert("Bu dosya geçerli bir soru yedeği değil.");
+
+}
+
+event.target.value="";
+
+};
+
+reader.readAsText(file,"UTF-8");
+
+}
 renderMoneyTree();
 fillLevels();
 
