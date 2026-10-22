@@ -427,12 +427,22 @@ alert("Önce yönetici panelinden soru ekleyiniz.");
 return;
 }
 
+clearInterval(timerInterval);
+timerRunning=false;
+
 currentIndex=-1;
 currentLevel=0;
 
-used={fifty:false,audience:false,friend:false,extra:false};
+used={
+fifty:false,
+audience:false,
+friend:false,
+extra:false
+};
 
-document.querySelectorAll(".joker").forEach(x=>x.classList.remove("used"));
+document.querySelectorAll(".joker").forEach(x=>{
+x.classList.remove("used");
+});
 
 nextQuestion();
 
@@ -443,23 +453,85 @@ function nextQuestion(){
 clearInterval(timerInterval);
 timerRunning=false;
 
-currentIndex++;
+/* Bir önceki soru cevaplanmışsa ve doğruysa
+   bir sonraki para basamağına geç */
+if(currentQuestion && answered){
 
-if(currentIndex>=questions.length){
+let selectedCorrect =
+document.querySelector(".answer.correct");
 
-document.getElementById("question").innerText="🎉 Yarışma tamamlandı!";
-document.getElementById("status").innerText="Tebrikler!";
+if(selectedCorrect){
+currentLevel++;
+}
+
+}
+
+/* 15. soru da tamamlandıysa yarışmayı bitir */
+if(currentLevel>=15){
+
+document.getElementById("question").innerText=
+"🏆 TEBRİKLER! BÜYÜK ÖDÜLE ULAŞTINIZ!";
+
+document.getElementById("status").innerText=
+"🎉 Yarışma başarıyla tamamlandı.";
+
 clearAnswers();
+renderMoneyTree();
+
 return;
 
 }
 
-currentQuestion=questions[currentIndex];
+/* Şu anki para basamağına ait soruları bul */
+let levelQuestions=questions.filter(q=>
+parseInt(q.level)===currentLevel+1
+);
+
+/* Bu basamakta soru yoksa dur */
+if(levelQuestions.length===0){
+
+document.getElementById("question").innerText=
+(currentLevel+1)+". basamak için soru bulunamadı.";
+
+document.getElementById("status").innerText=
+"⚠ Yönetici Panelinden "+(currentLevel+1)+
+". basamağa soru ekleyiniz.";
+
+clearAnswers();
+renderMoneyTree();
+
+return;
+
+}
+
+/* Aynı yarışmada daha önce sorulanları çıkar */
+let availableQuestions=levelQuestions.filter(q=>
+!q._asked
+);
+
+/* Hepsi kullanıldıysa yeniden kullanılabilir hale getir */
+if(availableQuestions.length===0){
+
+levelQuestions.forEach(q=>q._asked=false);
+availableQuestions=[...levelQuestions];
+
+}
+
+/* Rastgele soru seç */
+let randomIndex=
+Math.floor(Math.random()*availableQuestions.length);
+
+currentQuestion=availableQuestions[randomIndex];
+
+currentQuestion._asked=true;
+
+currentIndex++;
+
+renderMoneyTree();
 
 showQuestion(currentQuestion);
 
 }
-
 function showQuestion(q){
 
 answered=false;
