@@ -179,10 +179,29 @@ background:#102f6b;border-left:4px solid #ffd04d;padding:12px;margin:12px 0
   margin-bottom:15px;
 }
 </style>
+  #fullscreenBtn{
+  position:fixed;
+  top:12px;
+  right:15px;
+  z-index:9999;
+  background:#071b49;
+  color:#ffd447;
+  border:2px solid #ffd447;
+  border-radius:8px;
+  padding:8px 14px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 0 10px rgba(255,212,71,.35);
+}
+
+#fullscreenBtn:hover{
+  background:#ffd447;
+  color:#071b49;
+}
 </head>
 
 <body>
-
+<button id="fullscreenBtn" onclick="toggleFullscreen()">⛶ Tam Ekran</button>
 <header>
 <h1>İRFANİYE</h1>
 <p>BİLGİ YARIŞMASI</p>
@@ -1605,7 +1624,15 @@ reader.readAsText(file,"UTF-8");
 }
 renderMoneyTree();
 fillLevels();
+function toggleFullscreen(){
 
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen();
+  }else{
+    document.exitFullscreen();
+  }
+
+}
 </script>
 
 </body>
