@@ -568,6 +568,13 @@ audio.onended = function(){
 audio.play();
 
 }
+  function playFiftySound(){
+
+const audio = new Audio("yarı-yarıya-joker-hakkı-made-with-Voicemod.mp3");
+audio.volume = 1;
+audio.play();
+
+}
 function startGame(){
 gameOver=false;
   playStartSound();
@@ -853,7 +860,7 @@ document.getElementById("status").innerText="▶ Süre devam ediyor";
 function useFifty(){
 
 if(!currentQuestion || used.fifty) return;
-
+playFiftySound();
 used.fifty=true;
 document.getElementById("fifty").classList.add("used");
 
