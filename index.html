@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Valide Sultan Bilgi Yarışması</title>
+<title>İrfaniye Bilgi Yarışması</title>
 
 <style>
 *{box-sizing:border-box}
@@ -724,8 +724,26 @@ document.getElementById("status").innerText="✅ DOĞRU CEVAP!";
 
 }else{
 
+}else{
+
+let kazanilanOdul="0 TL";
+
+/* Güvenli baraj ödülünü belirle */
+if(currentLevel>=9){
+  kazanilanOdul="30.000 TL";
+}else if(currentLevel>=4){
+  kazanilanOdul="2.000 TL";
+}
+
+clearInterval(timerInterval);
+timerRunning=false;
+
 document.getElementById("status").innerText=
-"❌ Yanlış cevap. Doğru cevap: "+currentQuestion.correct;
+"❌ YARIŞMA BİTTİ! Kazandığınız ödül: "+kazanilanOdul+
+" | Doğru cevap: "+currentQuestion.correct;
+
+document.getElementById("question").innerText=
+"🏁 YARIŞMA SONA ERDİ — KAZANILAN ÖDÜL: "+kazanilanOdul;
 
 }
 
