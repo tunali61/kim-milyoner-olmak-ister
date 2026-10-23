@@ -548,6 +548,11 @@ audio.play();
 
 const audio = new Audio("kim-milyoner-olmak-ister-başlıyor-made-with-Voicemod.mp3");
 audio.volume = 1;
+
+audio.onended = function(){
+  nextQuestion();
+};
+
 audio.play();
 
 }
@@ -582,8 +587,6 @@ extra:false
 document.querySelectorAll(".joker").forEach(x=>{
 x.classList.remove("used");
 });
-
-nextQuestion();
 
 }
 
