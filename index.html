@@ -183,7 +183,7 @@ Yarışmaya başlamak için "Yarışmayı Başlat" butonuna basınız.
 
 <button class="control green" onclick="startGame()">▶ Yarışmayı Başlat</button>
 
-<button class="control orange" onclick="nextQuestion()">Sonraki Soru ➜</button>
+<button class="control orange" onclick="playNextSound()">Sonraki Soru ➜</button>
 
 <button class="control blue" onclick="openAdmin()">⚙ Yönetici Paneli</button>
 
@@ -547,6 +547,18 @@ audio.play();
   function playStartSound(){
 
 const audio = new Audio("kim-milyoner-olmak-ister-başlıyor-made-with-Voicemod.mp3");
+audio.volume = 1;
+
+audio.onended = function(){
+  nextQuestion();
+};
+
+audio.play();
+
+}
+  function playNextSound(){
+
+const audio = new Audio("sıradaki-soruya-geçiş-made-with-Voicemod.mp3");
 audio.volume = 1;
 
 audio.onended = function(){
