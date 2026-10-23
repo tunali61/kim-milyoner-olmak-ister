@@ -575,6 +575,13 @@ audio.volume = 1;
 audio.play();
 
 }
+  function playAudienceSound(){
+
+const audio = new Audio("seyirciye-sorma-joker-hakkı-made-with-Voicemod.mp3");
+audio.volume = 1;
+audio.play();
+
+}
 function startGame(){
 gameOver=false;
   playStartSound();
@@ -881,7 +888,7 @@ btn.classList.add("hiddenAnswer");
 function useAudience(){
 
 if(!currentQuestion || used.audience) return;
-
+playAudienceSound();
 used.audience=true;
 document.getElementById("audience").classList.add("used");
 
