@@ -582,6 +582,13 @@ audio.volume = 1;
 audio.play();
 
 }
+  function playFriendSound(){
+
+const audio = new Audio("milyoner-telefon-joker-sesi-made-with-Voicemod.mp3");
+audio.volume = 1;
+audio.play();
+
+}
 function startGame(){
 gameOver=false;
   playStartSound();
@@ -917,7 +924,7 @@ alert(
 function useFriend(){
 
 if(!currentQuestion || used.friend) return;
-
+playFriendSound();
 used.friend=true;
 document.getElementById("friend").classList.add("used");
 
