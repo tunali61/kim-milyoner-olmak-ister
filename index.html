@@ -555,6 +555,7 @@ let time=30;
 let timerInterval=null;
 let timerRunning=false;
   let friendTimerInterval=null;
+  let optionTimers=[];
 let answered=false;
   let doubleAnswerActive=false;
 let doubleAnswerFirstWrong=false;
@@ -790,19 +791,43 @@ showQuestion(currentQuestion);
 
 }
 function showQuestion(q){
-
+optionTimers.forEach(t=>clearTimeout(t));
+optionTimers=[];
 answered=false;
 doubleAnswerFirstWrong=false;
 document.getElementById("question").innerText=q.text;
 
-document.getElementById("answerA").innerText=q.A;
-document.getElementById("answerB").innerText=q.B;
-document.getElementById("answerC").innerText=q.C;
-document.getElementById("answerD").innerText=q.D;
+document.getElementById("answerA").innerText="A: ...";
+document.getElementById("answerB").innerText="B: ...";
+document.getElementById("answerC").innerText="C: ...";
+document.getElementById("answerD").innerText="D: ...";
+  optionTimers.push(setTimeout(()=>{
+  document.getElementById("answerA").innerText=q.A;
+},2000));
+
+optionTimers.push(setTimeout(()=>{
+  document.getElementById("answerB").innerText=q.B;
+},4000));
+
+optionTimers.push(setTimeout(()=>{
+  document.getElementById("answerC").innerText=q.C;
+},6000));
+
+optionTimers.push(setTimeout(()=>{
+  document.getElementById("answerD").innerText=q.D;
+
+  document.querySelectorAll(".answer").forEach(btn=>{
+    btn.disabled=false;
+  });
+
+  if(currentLevel < 10){
+    startTimer();
+  }
+},8000));
 
 document.querySelectorAll(".answer").forEach(btn=>{
 btn.classList.remove("selected","correct","wrong","hiddenAnswer");
-btn.disabled=false;
+btn.disabled=true;
 });
 
 time=parseInt(q.time)||30;
@@ -812,10 +837,6 @@ document.getElementById("timer").innerText=time;
 document.getElementById("status").innerText=
 (currentIndex+1)+". Soru • "+q.difficulty+" • "+
 (currentLevel < 10 ? time+" saniye" : "Süresiz");
-
-if(currentLevel < 10){
-  startTimer();
-}
 
 }
 
