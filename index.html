@@ -894,6 +894,17 @@ parseInt(currentQuestion.level)-1,
 
 document.getElementById("status").innerText="✅ DOĞRU CEVAP!";
 playCorrectSound();
+  if(parseInt(currentQuestion.level)===15){
+  gameOver=true;
+  clearInterval(timerInterval);
+  timerRunning=false;
+
+  document.getElementById("question").innerText=
+  "🏆 TEBRİKLER! BÜYÜK ÖDÜLÜ KAZANDINIZ: 500";
+
+  document.getElementById("status").innerText=
+  "🎉 YARIŞMAYI BAŞARIYLA TAMAMLADINIZ!";
+}
 }else{
 gameOver=true;
   playWrongSound();
