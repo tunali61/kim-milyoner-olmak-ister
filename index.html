@@ -172,7 +172,7 @@ background:#102f6b;border-left:4px solid #ffd04d;padding:12px;margin:12px 0
 <button class="joker" id="fifty" onclick="useFifty()">50 : 50</button>
 <button class="joker" id="audience" onclick="useAudience()">👥 Seyirci</button>
 <button class="joker" id="friend" onclick="useFriend()">☎ Arkadaşına Sor</button>
-<button class="joker" id="extra" onclick="useExtra()">⏱ +30 Sn</button>
+<button class="joker" id="extra" onclick="useExtra()">✌️ Çift Cevap</button>
 </div>
 
 <div class="timer" id="timer">30</div>
@@ -511,6 +511,8 @@ let timerInterval=null;
 let timerRunning=false;
   let friendTimerInterval=null;
 let answered=false;
+  let doubleAnswerActive=false;
+let doubleAnswerFirstWrong=false;
 let gameOver=false;
 let used={
 fifty:false,
@@ -637,6 +639,8 @@ questions.forEach(q=>{
 
 currentQuestion=null;
 answered=false;
+  doubleAnswerActive=false;
+doubleAnswerFirstWrong=false;
 used={
 fifty:false,
 audience:false,
@@ -744,7 +748,7 @@ showQuestion(currentQuestion);
 function showQuestion(q){
 
 answered=false;
-
+doubleAnswerFirstWrong=false;
 document.getElementById("question").innerText=q.text;
 
 document.getElementById("answerA").innerText=q.A;
@@ -771,7 +775,23 @@ startTimer();
 function chooseAnswer(letter,button){
 
 if(!currentQuestion || answered) return;
+/* Çift cevap jokerinde ilk yanlış cevap */
+if(doubleAnswerActive && !doubleAnswerFirstWrong && letter!==currentQuestion.correct){
 
+  doubleAnswerFirstWrong=true;
+
+  button.classList.add("wrong");
+  button.disabled=true;
+
+  document.getElementById("status").innerText=
+  "✌️ İLK CEVAP YANLIŞ — BİR CEVAP HAKKINIZ DAHA VAR!";
+
+  return;
+}
+  /* İkinci cevap veriliyorsa çift cevap hakkını kapat */
+if(doubleAnswerActive && doubleAnswerFirstWrong){
+  doubleAnswerActive=false;
+}
 answered=true;
 
 clearInterval(timerInterval);
@@ -1000,9 +1020,11 @@ if(!currentQuestion || used.extra) return;
 used.extra=true;
 document.getElementById("extra").classList.add("used");
 
-time+=30;
+doubleAnswerActive=true;
+doubleAnswerFirstWrong=false;
 
-document.getElementById("timer").innerText=time;
+document.getElementById("status").innerText=
+"✌️ ÇİFT CEVAP JOKERİ AKTİF! İki cevap hakkınız var.";
 
 }
 
