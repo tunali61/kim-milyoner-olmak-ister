@@ -537,6 +537,13 @@ audio.volume = 1;
 audio.play();
 
 }
+  function playWrongSound(){
+
+const audio = new Audio("milyoner-yanlış-full-made-with-Voicemod.mp3");
+audio.volume = 1;
+audio.play();
+
+}
 function startGame(){
 gameOver=false;
 if(questions.length===0){
@@ -730,6 +737,7 @@ document.getElementById("status").innerText="✅ DOĞRU CEVAP!";
 playCorrectSound();
 }else{
 gameOver=true;
+  playWrongSound();
 let kazanilanOdul="0 TL";
 
 /* Güvenli baraj ödülünü belirle */
