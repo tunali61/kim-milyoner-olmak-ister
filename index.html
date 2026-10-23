@@ -484,7 +484,7 @@ let time=30;
 let timerInterval=null;
 let timerRunning=false;
 let answered=false;
-
+let gameOver=false;
 let used={
 fifty:false,
 audience:false,
@@ -532,7 +532,7 @@ select.appendChild(o);
 }
 
 function startGame(){
-
+gameOver=false;
 if(questions.length===0){
 alert("Önce yönetici panelinden soru ekleyiniz.");
 return;
@@ -567,7 +567,7 @@ nextQuestion();
 }
 
 function nextQuestion(){
-
+if(gameOver) return;
 clearInterval(timerInterval);
 timerRunning=false;
 
@@ -723,7 +723,7 @@ parseInt(currentQuestion.level)-1,
 document.getElementById("status").innerText="✅ DOĞRU CEVAP!";
 
 }else{
-
+gameOver=true;
 let kazanilanOdul="0 TL";
 
 /* Güvenli baraj ödülünü belirle */
