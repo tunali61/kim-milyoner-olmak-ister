@@ -721,8 +721,7 @@ currentLevel++;
 if(currentLevel>=15){
 
 document.getElementById("question").innerText=
-"🏆 TEBRİKLER! BÜYÜK ÖDÜLE ULAŞTINIZ!";
-
+"🏆 TEBRİKLER! BÜYÜK ÖDÜLÜ KAZANDINIZ: 500";
 document.getElementById("status").innerText=
 "🎉 Yarışma başarıyla tamamlandı.";
 
@@ -881,9 +880,9 @@ let kazanilanOdul="0 TL";
 
 /* Güvenli baraj ödülünü belirle */
 if(currentLevel>=9){
-  kazanilanOdul="30.000 TL";
+  kazanilanOdul="250";
 }else if(currentLevel>=4){
-  kazanilanOdul="2.000 TL";
+  kazanilanOdul="125";
 }
 
 clearInterval(timerInterval);
