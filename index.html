@@ -530,7 +530,29 @@ select.appendChild(o);
 }
 
 }
+function playCorrectSound(){
 
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const ctx = new AudioContext();
+
+const osc = ctx.createOscillator();
+const gain = ctx.createGain();
+
+osc.connect(gain);
+gain.connect(ctx.destination);
+
+osc.type = "sine";
+osc.frequency.setValueAtTime(523, ctx.currentTime);
+osc.frequency.setValueAtTime(659, ctx.currentTime + 0.12);
+osc.frequency.setValueAtTime(784, ctx.currentTime + 0.24);
+
+gain.gain.setValueAtTime(0.18, ctx.currentTime);
+gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.45);
+
+osc.start();
+osc.stop(ctx.currentTime + 0.45);
+
+}
 function startGame(){
 gameOver=false;
 if(questions.length===0){
@@ -721,7 +743,7 @@ parseInt(currentQuestion.level)-1,
 );
 
 document.getElementById("status").innerText="✅ DOĞRU CEVAP!";
-
+playCorrectSound();
 }else{
 gameOver=true;
 let kazanilanOdul="0 TL";
