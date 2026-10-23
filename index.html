@@ -792,9 +792,12 @@ time=parseInt(q.time)||30;
 document.getElementById("timer").innerText=time;
 
 document.getElementById("status").innerText=
-(currentIndex+1)+". Soru • "+q.difficulty+" • "+time+" saniye";
+(currentIndex+1)+". Soru • "+q.difficulty+" • "+
+(currentLevel < 10 ? time+" saniye" : "Süresiz");
 
-startTimer();
+if(currentLevel < 10){
+  startTimer();
+}
 
 }
 
@@ -892,7 +895,8 @@ timerInterval=setInterval(()=>{
 
 time--;
 
-document.getElementById("timer").innerText=time;
+document.getElementById("timer").innerText=
+currentLevel < 10 ? time : "∞";
 
 if(time<=0){
 
