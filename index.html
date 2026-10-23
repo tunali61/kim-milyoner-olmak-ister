@@ -544,8 +544,16 @@ audio.volume = 1;
 audio.play();
 
 }
+  function playStartSound(){
+
+const audio = new Audio("kim-milyoner-olmak-ister-başlıyor-made-with-Voicemod.mp3");
+audio.volume = 1;
+audio.play();
+
+}
 function startGame(){
 gameOver=false;
+  playStartSound();
 if(questions.length===0){
 alert("Önce yönetici panelinden soru ekleyiniz.");
 return;
