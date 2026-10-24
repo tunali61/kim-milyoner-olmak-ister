@@ -406,7 +406,7 @@ Para yerine puan veya ödül adı da yazabilirsiniz. Örneğin: "500 Puan" veya 
 <strong>📥 Toplu Soru Yükleme</strong><br><br>
 Sorularınızı CSV dosyası ile toplu olarak yükleyebilirsiniz.<br><br>
 Sütun sırası:<br>
-<strong>Basamak | Soru | A | B | C | D | Doğru Cevap | Süre | Zorluk</strong>
+<strong>Basamak | Kategori | Soru | A | B | C | D | Doğru Cevap | Süre | Zorluk</strong>
 </div>
 
 <div style="margin-top:18px">
@@ -1393,21 +1393,21 @@ for(let i=startIndex;i<lines.length;i++){
 
 let cols=parseCSVLine(lines[i]);
 
-if(cols.length<9){
+if(cols.length<10){
 skipped++;
 continue;
 }
 
 let level=parseInt(cols[0]);
-let text=cols[1].trim();
-let A=cols[2].trim();
-let B=cols[3].trim();
-let C=cols[4].trim();
-let D=cols[5].trim();
-let correct=cols[6].trim().toUpperCase();
-let qTime=parseInt(cols[7]) || 30;
-let difficulty=cols[8].trim() || "Kolay";
-
+let category=cols[1].trim();
+let text=cols[2].trim();
+let A=cols[3].trim();
+let B=cols[4].trim();
+let C=cols[5].trim();
+let D=cols[6].trim();
+let correct=cols[7].trim().toUpperCase();
+let qTime = level >= 11 ? 0 : (parseInt(cols[8]) || 30);
+let difficulty=cols[9].trim() || "Kolay";
 if(
 !level ||
 level<1 ||
@@ -1424,6 +1424,7 @@ continue;
 }
 
 questions.push({
+  category:category,
 text:text,
 A:A,
 B:B,
