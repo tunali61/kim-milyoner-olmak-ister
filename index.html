@@ -380,7 +380,11 @@ Yarışmaya başlamak için "Yarışmayı Başlat" butonuna basınız.
 <div class="notice">
 Eklediğiniz sorular aşağıda görünür. Düzenleyebilir veya silebilirsiniz.
 </div>
-
+<div style="margin-bottom:12px;">
+  <button class="savebtn" onclick="deleteAllQuestions()" style="background:#c62828;">
+    🗑 Tüm Soruları Sil
+  </button>
+</div>
 <div class="question-list" id="questionList"></div>
 
 </div>
@@ -1285,7 +1289,20 @@ localStorage.setItem("vs_questions",JSON.stringify(questions));
 renderQuestionList();
 
 }
+function deleteAllQuestions(){
 
+  if(!confirm("TÜM soruları silmek istediğinize emin misiniz?")) return;
+
+  if(!confirm("Bu işlem geri alınamaz. 454 sorunun tamamı silinecek. Devam edilsin mi?")) return;
+
+  questions = [];
+
+  localStorage.setItem("vs_questions", JSON.stringify(questions));
+
+  renderQuestionList();
+
+  alert("Tüm sorular başarıyla silindi.");
+}
 function renderMoneySettings(){
 
 let box=document.getElementById("moneySettings");
